@@ -15,3 +15,4 @@ machine.
 By using virtualization, that is by creating virtual "hardware" that borrows
 the real hardware's resources, we can have several systems running on one
 machine, as if they were running on separate machines.
+
