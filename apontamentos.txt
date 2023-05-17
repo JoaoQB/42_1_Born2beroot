@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/17 12:37:29 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/17 16:18:17 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,3 +16,19 @@ By using virtualization, that is by creating virtual "hardware" that borrows
 the real hardware's resources, we can have several systems running on one
 machine, as if they were running on separate machines.
 
+Partition:
+Manual
+500mb Primary Beginning
+Encrypt Main Volume
+Create volume group
+Create logical volume
+all apart from swap - ext4
+swap - swap area
+
+settings : network 4242port bridge
+
+Resize LVMGroup
+sudo resize2fs /dev/sda1 XXXm
+sudo lvresize -L +XXXm /dev/LVMGroup/YYY
+
+esyou no 6.3
