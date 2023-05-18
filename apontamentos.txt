@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/17 16:18:17 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/18 14:50:23 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,32 @@ swap - swap area
 
 settings : network 4242port bridge
 
+// Sudo stands for 'Superuser do'. Grants root privileges to users.
+Installing Sudo:
+	'su -' to login as root user
+	'apt-get update -y' (-y says yes to prompts)
+	'apt-get upgrade -y'
+	'apt install sudo'
+	'usermod -aG sudo your_username' add user to sudo group (-a append, -g specifies group)
+		('getent group sudo') to check if user is in sudo group
+	'sudo visudo' open sudoers file
+		find - # User privilege specification, type 'your_username  	ALL=(ALL) ALL'
+			grants user full sudo priviliges.
+
+Installing Git and Vim:
+	'apt-get install git -y'
+		'git --version' checks version
+	'apt-get install vim -y'
+
+// Secure Shell, a secure terminal, allows user to administer Linux servers
+	 locally, but also remotelly, by using the SSH protocol to connect remotely.
+Installing and Confuring SSH (Secure Shell Host):
+	'sudo apt install openssh-server'
+		'sudo systemctl status ssh' check ssh server status.
+	'sudo vim /etc/ssh/sshd_config'
+		Find line '#Port22' and change to 'Port 4242', without the #.
+
 Resize LVMGroup
 sudo resize2fs /dev/sda1 XXXm
 sudo lvresize -L +XXXm /dev/LVMGroup/YYY
 
-esyou no 6.3
