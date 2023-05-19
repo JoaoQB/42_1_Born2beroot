@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/18 16:28:31 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/19 12:07:40 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,4 +135,73 @@ Hostname:
 	'sudo hostnamectl set-hostname new_hostname' new hostname
 	'hostnamectl status'
 
+Useful Commands For Users:
+	'useradd' creates a user
+	'usermod' changes user parameters
+		'-l' for username
+		'-c' for full name
+		'-G' for groups by group id / '-aG' append to group
+	'sudo userdel -r' deletes user and associated files
+	'id -u' display user ID
+	'users' list all currently logged users
+	'cut -d: -f1 /etc/passwd' list all users on the machine (local users)
+
+Useful Commands For Groups:
+	'groupadd' creates new group
+	'gpasswd -a' adds user to a group
+	'gpasswd -d' removes user from a group
+	'groupdel' deletes group
+	'groups' display the groups of a user
+	'id -g' shows a user main group ID
+	'getent group' list of all users in a group
+
+
+// Useful for auditing (record of all sudo commands executed), accountability,
+	forensics (in case of  an incident), compliance (to the regulatory standards).
+
+Creating sudo.log
+	'cd ~/../'
+	'cd var/log'
+	'mkdir sudo' if it doesn't exist
+	'cd sudo'
+	'touch sudo.log'
+	'cd ~/../'
+
+Configuring Sudoers Group
+	'sudo nano /etc/sudoers'
+		edit it with the following defaults:
+			'Defaults	env_reset' ensures environment variables are reset to a secure state.
+			'Defaults	mail_badpass' sends an email to MAILTO adress whenever incorrect pass is entered with sudo.
+			'Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"' secure path for executables.
+			'Defaults	badpass_message="Password is wrong, please try again!"' custom error message
+			'Defaults	passwd_tries=3'
+			'Defaults	logfile="/var/log/sudo.log"'
+			'Defaults	log_input, log_output' enables login of input and output commands with sudo.
+			'Defaults	requiretty' sudo can only be executed from a terminal.
+
+// Installs net-tools, which includes various networking tools like netstat, which
+	is used to display network connections and related info.
+
+Crontab Configuration
+	'apt-get install -y net-tools' install netstat tools
+	'cd /usr/local/bin' (from home dir) standard dir for storing user-installed executables and scripts
+	'touch monitoring.sh' creates a shell script (empty for now)
+	'chmod 577 monitoring.sh' changes the permissions to 777. Readable writable executable by all users.
+	'systemctl enable cron'
+
+Moniroting.sh
+	Useful Commands to Write the script
+		'uname' architecture info
+		'/proc/cpuinfo' CPU info
+		'free' RAM info
+		'df' disk info
+		'top -bn1' process info
+		'who' boot and connected user info
+		'lsblk' partition and LVM info
+		'/proc/net/sockstat' TCP info
+		'hostname' hostname and IP info
+		'ip link show'/'ip adress' IP and MAC info
+	Copy script text
+	Open terminal outside Virtual Machine and type
+		'ssh your_host_name42@127.0.0.1 -p 4242' then type pass
 
