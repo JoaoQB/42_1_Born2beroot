@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/20 10:54:54 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/20 12:55:50 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,3 +15,98 @@ machine.
 By using virtualization, that is by creating virtual "hardware" that borrows
 the real hardware's resources, we can have several systems running on one
 machine, as if they were running on separate machines.
+
+Hypervisor or virtual machine monitor is a piece of software that enables a user
+to create and run one or more VMs simultaneously. It controls the resources
+of the host machine and allocates to each VM the resources it needs (memory,
+CPU...). We'll be using VirtualBox. It's free and opensource. It's a type 2
+hypervisor. Type 2 hypervisor is installed on the host OS. The VM OS is the
+guest OS. Type 1 hypervisor is installed straight on to the hardware.
+The type 2 has to ask the host OS for it's resources while the type 1 controls
+the show and has full access to the resources.
+
+Why use a VM?
+	To develop Hacking, to learn different OSs, to break stuff.
+	It's more convenient and cheaper to install a VM than to buy another computer.
+	It's maintenance is very low compared to a server or other physical
+	machines. You save a lot of space. When a physical server crashes it can
+	be complex to recover it's data. The software aspect of VMs simplifies
+	data backup.
+	By using snapshots, it allows you to restore the VM to it's previous state.
+	(see useful_links)
+	Virtualization also allows you to increase the security of your data by
+	partitioning them and isolating services on different servers.
+	Each VM is isolated from the others, including the host system. It limits
+	the risk of propagation in case of malware intrusion. Also if it crashes,
+	other VMs are not affected. To summarize:
+		-Inexpensive
+		-Save physical space
+		-Less maintenance than a physical machine
+		-Data backup simplified
+		-Increased security
+		-Experiment with OSs
+		-Break stuff
+		-Hacking
+
+Operating systems
+	Every machine runs on a OS, which is a set of programs that allows to run and
+	control a machine. It can be seen as the bridge between the user and the software.
+	It's part of the system software like OS, device drivers, firmware, boot loaders..
+	The Kernel is the bridge between the OS and the hardware. It's main purpose
+	is to manage memory, disks, taks and processes. A system always has an OS and
+	an OS always has a kernel. (see useful_links)
+
+
+Debian vs CentOS:
+	Debian offers high degree of control and costumization to its configuration.
+	CentOS is used in IT on a large scale. Used in servers, ensures enterprise-level
+	of security.
+	Debian is a lot easier to upgrade. It's more user-friendly and supports many
+	libraries, filesystems and architecture.
+	If you are a large business CentOS offers more Enterprise features and excellent
+	support for the Enterprise software.
+	If you are a beginner, 42 recommends you to use Debian.
+	(see useful_links)
+
+Linux File System:
+	Defined by the fyle system hierarchy standard.
+	'/'
+		The root directory, it's the uppermost directory in Linux containing
+		all the files, device data and system info in the form of directories.
+	'/bin'
+		Contains binaries or executables essential to the entire OS.
+		Like vim, curl, ls, wall..
+	'/sbin'
+		Contains system binaries and executables essential for super user (root).
+		Like mount, deluser..
+	'/lib'
+		Many of this binaries may share common libraries (shared code between
+		binaries), stored in /lib.
+	'/usr'
+		Contains its own /bin and /sbin directories, which are not essential for
+		the OS, but are intended for the end user. There's also a local folder
+		inside which are binaries we compiled mannualy. To know where a binary lives
+		run 'which binary_name' to see it's full path.
+	'/etc'
+		Editable text configuration, where text based config files live to be able
+		to costumize the behaviour of the software on my system. Like zshrc, passwd..
+	'/home'
+		Contains different users directories, it contains the files, configurations
+		for that user. ~ shortcut to home.
+	'/boot'
+		Contains files needed to boot the system like the linux kernel itself.
+	'/dev'
+		Stands for devie files. To interface with hardware or drivers as if they
+		were files itself. Can create disk partitions here or interface with my
+		floppy drive.
+	'/opt'
+		Optional or add-on software.
+	'/var'
+		Contains variable files that will change as the OS is being used. Things
+		like logs or cache files.
+	'/tmp'
+		Contains files that won't be persisted between reboots.
+	'/proc'
+		Illusionary file system that doesn't exist on the harddrive itself but is
+		created in memory on the fly by the kernel itself to keep track of running
+		processes.

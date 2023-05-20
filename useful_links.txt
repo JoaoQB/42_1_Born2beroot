@@ -13,3 +13,14 @@ Linux Directories Explained in 100 Seconds
 
 https://www.youtube.com/watch?v=wX75Z-4MEoM
 Straightforward explanation of VMs.
+
+https://www.techrepublic.com/article/how-to-use-snapshots-in-virtualbox/
+
+https://www.geeksforgeeks.org/difference-between-operating-system-and-kernel/
+
+https://cdn.educba.com/academy/wp-content/uploads/2018/09/CentOS-vs-Debian-1.jpg
+
+https://www.devopsschool.com/blog/what-is-swap-in-linux-and-useful-commands-to-work-with-swap-space-in-linux/
+
+https://www.youtube.com/watch?v=0mgefj9ibRE
+What is Linux swap?
