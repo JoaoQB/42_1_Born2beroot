@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/20 12:55:50 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/20 13:02:08 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,7 @@ Linux File System:
 		for that user. ~ shortcut to home.
 	'/boot'
 		Contains files needed to boot the system like the linux kernel itself.
+		Contains data that is used before the Kernel begins executing user-mode programs.
 	'/dev'
 		Stands for devie files. To interface with hardware or drivers as if they
 		were files itself. Can create disk partitions here or interface with my
