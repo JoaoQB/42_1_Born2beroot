@@ -1,0 +1,214 @@
+Partition:
+	Manual
+	525mb boot (500mb + 5%) Primary Beginning
+	Encrypt Main Volume
+	Create volume group
+	Create logical volume
+		all apart from swap - ext4
+		swap - swap area
+
+Settings:
+	network 4242port bridge
+
+Resize LVMGroup:
+	'sudo resize2fs /dev/sda1 XXXm'
+	'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
+
+
+// Sudo stands for 'Superuser do'. Grants root privileges to users.
+
+Installing Sudo:
+	'su -' to login as root user
+	'apt-get update -y' (-y says yes to prompts)
+	'apt-get upgrade -y'
+	'apt install sudo'
+	'usermod -aG sudo your_username' add user to sudo group (-a append, -g specifies group)
+		('getent group sudo') to check if user is in sudo group
+	'sudo visudo' open sudoers file
+		find - # User privilege specification, type 'your_username  	ALL=(ALL) ALL'
+			grants user full sudo priviliges.
+
+
+Installing Git and Vim:
+	'apt-get install git -y'
+		'git --version' checks version
+	'apt-get install vim -y'
+
+
+// https://www.techtarget.com/searchsecurity/definition/Secure-Shell
+// Secure Shell, a secure terminal, allows user to administer Linux servers
+	locally, but also remotelly, by using the SSH protocol to connect remotely.
+
+Installing and Confuring SSH (Secure Shell Host):
+	'sudo apt install openssh-server'
+		'sudo systemctl status ssh' check ssh server status.
+	'sudo vim /etc/ssh/sshd_config'
+		Find line '#Port22' and change to 'Port 4242', without the #.
+	'sudo grep Port /etc/ssh/sshd_config' to check if port settings are right.
+	'sudo service ssh restart' to restart the SSH service.
+
+
+// https://www.linux.com/training-tutorials/introduction-uncomplicated-firewall-ufw/
+// https://en.wikipedia.org/wiki/Uncomplicated_Firewall
+// https://pt.wikipedia.org/wiki/Iptables
+
+Installing and Configuring UFW (Uncomplicated Firewall):
+	'sudo apt-get install ufw' install UFW
+	'sudo ufw enable' enables on startup
+	'sudo ufw status numbered' checks the status
+	'sudo ufw allow ssh' configure the Rules
+	'sudo ufw allow 4242' configure Port Rules
+	'sudo ufw status numbered'
+		'sudo ufw delete <port index number>' remove port rule (for port 22)
+
+
+Connecting to SSH:
+	'sudo service sshd status'
+	'ssh jqueijo-@127.0.0.1 -p 4242' only works inside vm
+		'rm ~/.ssh/known_hosts' in case of error, than retype above line.
+	'exit' to quit ssh iterm connection.
+
+
+Setting Password Policy:
+	'sudo apt-get install libpam-pwquality' install Password Quality Checking Library
+		'sudo vim /etc/security/pwquality.conf'
+			edit file so:
+			'difok = 7' Number of chars new pass must not be present in old pass
+			'minlen = 10' Minimum pass size
+			'dcredit = -1' Maximum digits, less than 0 minimum digits in pass
+			'ucredit = -1' Maximum Uppercase, less than 0 minimum Upper in pass
+			'maxrepeat = 3' Maximum allowed consecutive same characters in pass
+			'usercheck = 1' check if pass contins user name in some from
+			'retry = 3' prompt user n times before returning error
+			'enforce_for_root' enforce pwquality on the root user pass
+	'sudo vim /etc/pam.d/common-password'
+		Find line 'password requisite pam_deny.so' or '... pam_pwquality.so retry=3'
+		Add to the end of line:
+		'minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root'
+		save and exit vim
+	'sudo vim /etc/login.defs'
+		Find PASS_MAX_DAYS 9999...
+		change to 'PASS_MAX_DAYS 30' 'PASS_MIN_DAYS 2' 'PASS_WARN_AGE 7'
+		This changes don't apply to existing users:
+			'sudo chage -M 30 your_username'
+			'sudo chage -m 2 your_username'
+			'sudo chage -W 7 your_username'
+		'chage -l your_username' check user settings
+	'sudo passwd your_username' change pass to comply with password policy
+	'sudo reboot' to reboot the change effects.
+
+
+Creating a Group:
+	'sudo groupadd user42' create a group
+	'sudo groupadd evaluating' create an evaluating group
+	'getent group' check if group was created
+
+Creating a User and Assigning Them Into The Group
+	'cut -d: -f1 /etc/passwd' check all local users
+	'sudo adduser new_username'
+		'sudo usermod -aG user42 your_username'
+		'sudo usermod -aG evaluating your_new_username'
+	'getent group user42'
+	'getent group evaluating'
+	'groups' checks which groups the current user belongs to
+	'chage -l your_new_username' to check if pass rules are working in users
+
+Hostname:
+	'sudo hostnamectl set-hostname new_hostname' new hostname
+	'hostnamectl status'
+
+Useful Commands For Users:
+	'useradd' creates a user
+	'usermod' changes user parameters
+		'-l' for username
+		'-c' for full name
+		'-G' for groups by group id / '-aG' append to group
+	'sudo userdel -r' deletes user and associated files
+	'id -u' display user ID
+	'users' list all currently logged users
+	'cut -d: -f1 /etc/passwd' list all users on the machine (local users)
+
+Useful Commands For Groups:
+	'groupadd' creates new group
+	'gpasswd -a' adds user to a group
+	'gpasswd -d' removes user from a group
+	'groupdel' deletes group
+	'groups' display the groups of a user
+	'id -g' shows a user main group ID
+	'getent group' list of all users in a group
+
+
+// Useful for auditing (record of all sudo commands executed), accountability,
+	forensics (in case of  an incident), compliance (to the regulatory standards).
+
+Creating sudo.log
+	'cd ~/../'
+	'cd var/log'
+	'mkdir sudo' if it doesn't exist
+	'cd sudo'
+	'touch sudo.log'
+	'cd ~/../'
+
+Configuring Sudoers Group
+	'sudo nano /etc/sudoers'
+		edit it with the following defaults:
+			'Defaults	env_reset' ensures environment variables are reset to a secure state.
+			'Defaults	mail_badpass' sends an email to MAILTO adress whenever incorrect pass is entered with sudo.
+			'Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"' secure path for executables.
+			'Defaults	badpass_message="Password is wrong, please try again!"' custom error message
+			'Defaults	passwd_tries=3'
+			'Defaults	logfile="/var/log/sudo.log"'
+			'Defaults	log_input, log_output' enables login of input and output commands with sudo.
+			'Defaults	requiretty' sudo can only be executed from a terminal.
+
+// Installs net-tools, which includes various networking tools like netstat, which
+	is used to display network connections and related info.
+
+Crontab Configuration
+	'apt-get install -y net-tools' install netstat tools
+	'cd /usr/local/bin' (from home dir) standard dir for storing user-installed executables and scripts
+	'touch monitoring.sh' creates a shell script (empty for now)
+	'chmod 777 monitoring.sh' changes the permissions to 777. Readable writable executable by all users.
+	'systemctl enable cron'
+
+Moniroting.sh
+	Useful Commands to Write the script
+		'uname' architecture info
+		'/proc/cpuinfo' CPU info
+		'free' RAM info
+		'df' disk info
+		'top -bn1' process info
+		'who' boot and connected user info
+		'lsblk' partition and LVM info
+		'/proc/net/sockstat' TCP info
+		'hostname' hostname and IP info
+		'ip link show'/'ip address' IP and MAC info
+
+	Copy script text
+	Open terminal outside Virtual Machine and type
+		'ip address' para ver o ip
+		'ssh your_user_name@ip -p 4242' then type pass
+			neste caso foi 'ssh jqueijo-@10.12.248.135 -p 4242'
+		'cd/usr/local/bin'
+		'vim monitoring.sh'
+			paste script text
+			save and exit
+		'exit' from ssh connection
+		go back to VM
+		'sudo visudo'
+			'your_username ALL=(ALL) NOPASSWD: /usr/local/bin/monitoring.sh' under %sudo ALL...
+				allows user to run command from any host without entering a password.
+			save
+		'sudo reboot'
+		'sudo /usr/local/bin/monitoring.sh' execute script
+		'sudo crontab -u root -e' open crontab and add the rule
+		'*/10 * * * * /usr/local/bin/monitoring.sh' to make it execute every 10mins.
+
+Signature.txt
+	WARNING, before you generate a signature number, turn off your VM!!!
+	'cd'
+	'cd sgoinfre/virtualbox_name'
+		'cd sgoinfre/born2beroot' in my case
+	'shasum VM_name.vdi' in my case 'shasum born2beroot.vdi'
+	copy output number and create signature.txt file and paste it in.
+	Submit the signature.txt
