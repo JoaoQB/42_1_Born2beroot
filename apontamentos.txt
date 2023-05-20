@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/19 12:07:40 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/20 10:52:03 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ Installing and Configuring UFW (Uncomplicated Firewall):
 
 Connecting to SSH:
 	'sudo service sshd status'
-	'ssh jqueijo-@127.0.0.1 -p 4242'
+	'ssh jqueijo-@127.0.0.1 -p 4242' only works inside vm
 		'rm ~/.ssh/known_hosts' in case of error, than retype above line.
 	'exit' to quit ssh iterm connection.
 
@@ -186,7 +186,7 @@ Crontab Configuration
 	'apt-get install -y net-tools' install netstat tools
 	'cd /usr/local/bin' (from home dir) standard dir for storing user-installed executables and scripts
 	'touch monitoring.sh' creates a shell script (empty for now)
-	'chmod 577 monitoring.sh' changes the permissions to 777. Readable writable executable by all users.
+	'chmod 777 monitoring.sh' changes the permissions to 777. Readable writable executable by all users.
 	'systemctl enable cron'
 
 Moniroting.sh
@@ -200,8 +200,33 @@ Moniroting.sh
 		'lsblk' partition and LVM info
 		'/proc/net/sockstat' TCP info
 		'hostname' hostname and IP info
-		'ip link show'/'ip adress' IP and MAC info
+		'ip link show'/'ip address' IP and MAC info
+
 	Copy script text
 	Open terminal outside Virtual Machine and type
-		'ssh your_host_name42@127.0.0.1 -p 4242' then type pass
+		'ip address' para ver o ip
+		'ssh your_user_name@ip -p 4242' then type pass
+			neste caso foi 'ssh jqueijo-@10.12.248.135 -p 4242'
+		'cd/usr/local/bin'
+		'vim monitoring.sh'
+			paste script text
+			save and exit
+		'exit' from ssh connection
+		go back to VM
+		'sudo visudo'
+			'your_username ALL=(ALL) NOPASSWD: /usr/local/bin/monitoring.sh' under %sudo ALL...
+				allows user to run command from any host without entering a password.
+			save
+		'sudo reboot'
+		'sudo /usr/local/bin/monitoring.sh' execute script
+		'sudo crontab -u root -e' open crontab and add the rule
+		'*/10 * * * * /usr/local/bin/monitoring.sh' to make it execute every 10mins.
 
+Signature.txt
+	WARNING, before you generate a signature number, turn off your VM!!!
+	'cd'
+	'cd sgoinfre/virtualbox_name'
+		'cd sgoinfre/born2beroot' in my case
+	'shasum VM_name.vdi' in my case 'shasum born2beroot.vdi'
+	copy output number and create signature.txt file and paste it in.
+	Submit the signature.txt
