@@ -4,15 +4,16 @@ Partition:
 	Encrypt Main Volume
 	Create volume group
 	Create logical volume
+	root - 10500m
+	swap - 2415m
+	home - 5250m
+	var/srv/tmp - 3150m
+	var-log - 4200m
 		all apart from swap - ext4
 		swap - swap area
 
 Settings:
 	network 4242port bridge
-
-Resize LVMGroup:
-	'sudo resize2fs /dev/sda1 XXXm'
-	'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
 
 
 // Sudo stands for 'Superuser do'. Grants root privileges to users.
@@ -27,6 +28,12 @@ Installing Sudo:
 	'sudo visudo' open sudoers file
 		find - # User privilege specification, type 'your_username  	ALL=(ALL) ALL'
 			grants user full sudo priviliges.
+
+
+Resize LVMGroup:
+	'lsblk'
+	'sudo resize2fs /dev/sda1 XXXm'
+	'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
 
 
 Installing Git and Vim:
@@ -78,11 +85,11 @@ Setting Password Policy:
 			'dcredit = -1' Maximum digits, less than 0 minimum digits in pass
 			'ucredit = -1' Maximum Uppercase, less than 0 minimum Upper in pass
 			'maxrepeat = 3' Maximum allowed consecutive same characters in pass
-			'usercheck = 1' check if pass contins user name in some from
+			'usercheck = 1' check if pass contains user name in some from
 			'retry = 3' prompt user n times before returning error
 			'enforce_for_root' enforce pwquality on the root user pass
 	'sudo vim /etc/pam.d/common-password'
-		Find line 'password requisite pam_deny.so' or '... pam_pwquality.so retry=3'
+		Find line '... pam_pwquality.so retry=3' or 'password requisite pam_deny.so'
 		Add to the end of line:
 		'minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root'
 		save and exit vim
@@ -123,6 +130,7 @@ Useful Commands For Users:
 		'-l' for username
 		'-c' for full name
 		'-G' for groups by group id / '-aG' append to group
+			'chage -l your_username' check user settings
 	'sudo userdel -r' deletes user and associated files
 	'id -u' display user ID
 	'users' list all currently logged users
