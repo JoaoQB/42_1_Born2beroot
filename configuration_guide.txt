@@ -51,6 +51,7 @@ Installing and Confuring SSH (Secure Shell Host):
 		'sudo systemctl status ssh' check ssh server status.
 	'sudo vim /etc/ssh/sshd_config'
 		Find line '#Port22' and change to 'Port 4242', without the #.
+		Find line 34, change to 'PermitRootLogin no'.
 	'sudo grep Port /etc/ssh/sshd_config' to check if port settings are right.
 	'sudo service ssh restart' to restart the SSH service.
 
@@ -150,7 +151,7 @@ Useful Commands For Groups:
 	forensics (in case of  an incident), compliance (to the regulatory standards).
 
 Creating sudo.log
-	'cd ~/../'
+	'cd /'
 	'cd var/log'
 	'mkdir sudo' if it doesn't exist
 	'cd sudo'
@@ -166,7 +167,8 @@ Configuring Sudoers Group
 			'Defaults	badpass_message="Password is wrong, please try again!"' custom error message
 			'Defaults	passwd_tries=3'
 			'Defaults	logfile="/var/log/sudo.log"'
-			'Defaults	log_input, log_output' enables login of input and output commands with sudo.
+			'Defaults	log_input'
+			'Defaults	log_output' enables login of input and output commands with sudo.
 			'Defaults	requiretty' sudo can only be executed from a terminal.
 
 // Installs net-tools, which includes various networking tools like netstat, which

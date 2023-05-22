@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/20 13:02:08 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/22 14:56:19 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,16 +57,8 @@ Operating systems
 	an OS always has a kernel. (see useful_links)
 
 
-Debian vs CentOS:
-	Debian offers high degree of control and costumization to its configuration.
-	CentOS is used in IT on a large scale. Used in servers, ensures enterprise-level
-	of security.
-	Debian is a lot easier to upgrade. It's more user-friendly and supports many
-	libraries, filesystems and architecture.
-	If you are a large business CentOS offers more Enterprise features and excellent
-	support for the Enterprise software.
-	If you are a beginner, 42 recommends you to use Debian.
-	(see useful_links)
+Debian vs Rocky:
+
 
 Linux File System:
 	Defined by the fyle system hierarchy standard.

@@ -1,6 +1,11 @@
 'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
 'sudo ufw status numbered' checks the status
 
+'sudo chage -M 30 your_username'
+'sudo chage -m 2 your_username'
+'sudo chage -W 7 your_username'
+'sudo ufw delete <port index number>' remove port rule
+
 Useful Commands For Users:
 	'useradd' creates a user
 	'usermod' changes user parameters
@@ -21,3 +26,21 @@ Useful Commands For Groups:
 	'groups' display the groups of a user
 	'id -g' shows a user main group ID
 	'getent group' list of all users in a group
+
+Hostname and partitions:
+	'hostnamectl status'
+	'sudo hostnamectl set-hostname new_hostname'
+	'sudo reboot'
+
+Moniroting.sh
+	Useful Commands to Write the script
+		'uname' architecture info
+		'/proc/cpuinfo' CPU info
+		'free' RAM info
+		'df' disk info
+		'top -bn1' process info
+		'who' boot and connected user info
+		'lsblk' partition and LVM info
+		'/proc/net/sockstat' TCP info
+		'hostname' hostname and IP info
+		'ip link show'/'ip address' IP and MAC info
