@@ -1,74 +1,82 @@
-#!/bin/bash #>> you are telling your environment/ os to use bash as a command interpreter
-arc=$(uname -a) #uname displays information about the system and -a means all information
+# Execute as bash.
+#!/bin/bash
 
+# System Architecture info (-a all info)
+arc=$(uname -a)
 
-#grep or "global regular expression print” is a command used in searching
-#and matching text files contained in the regular expressions
+# Prints lines matching pattern "physical id" inside file /proc/cpuinfo, uniq
+# to ignore duplicated lines and wc -l to count the number of lines and display
+# that number.
+pcpu=$(grep "physical id" /proc/cpuinfo | uniq | wc -l)
 
-#awk is a kind of super command with which you can do many things
-#for example awk '{ print $2; }' prints the second field of each line
+# Print lines matching "processor" (^ means only lines that start with word
+# processor and not every occurrence of the word)
+vcpu=$(grep "^processor" /proc/cpuinfo | wc -l)
 
-#The /proc/cpuinfo command provides information about
-pcpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l)
+# Free gives info about available RAM, -m shows info in megabytes, awk
+# filters info so that only the line starting by "Mem:" is showed, and the
+# print $2 tells it to print only the second field on that line.
+tram=$(free -m | awk '$1 == "Mem:" {print $2}')
 
-vcpu=$(grep "^processor" /proc/cpuinfo | wc -l) #Provides each processor with an identifying number.
-						#If you have one processor it will display a 0.
-						#If you have more than one processor it will display
-						#all processor information separately counting the processors
-						#using zero notation.
+# Same but now filter used ram.
+uram=$(free -m | awk '$1 == "Mem:" {print $3}')
 
-#The free command provides information about the total amount of the physical and
-#swap memory, as well as the free and used memory
-# -m displays the amount of memory in mebibytes
-fram=$(free -m | awk '$1 == "Mem:" {print $2}') #Display the free/unused memory
+# Calculate the percentage by dividing used ram/total ram * 100
+pram=$(free -m | awk '$1 == "Mem:" {printf("%.2f", $3/$2*100)}')
 
-uram=$(free -m | awk '$1 == "Mem:" {print $3}') #Diplay the used memory
+# 'df' shows info about disk space usage. -BG scales size by blocks and displays
+# them in GB. It then filters the results to show lines starting by 'dev' and
+# grep -v excludes the ones that end with '/boot'. ^ indicates start of line and
+# $ indicates end of line. Otherwise it would include all lines with dev and
+# exclude all lines with /boot.
+# The END parameter between the calculation and print ensure it doesn't print
+# the result after every time it adds a value.
+tdisk=$(df -BG | grep '^dev' | grep -v '/boot$' | awk '{tdisk += $2} END {print tdisk}')
 
-pram=$(free | awk '$1 == "Mem:" {printf("%.2f"), $3/$2*100}') #Display the usage rate as a percentage
+# Same but for used disk space.
+udisk=$(df -BG | grep '^dev' | grep -v '/boot$' | awk '{udisk += $3} END {print udisk}')
 
+# Percentage of disk usage
+pdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{tdisk += $2} {udisk += $3} END {printf("%.2f", udisk/tdisk*100)}')
 
-#The df command (short for disk free), is used to display information related to
-# file systems about total space and available space.
-fdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{ft += $2} END {print ft}')
+# 'top' displays an interactive interface showing the current state of the system.
+# -b runs it in batch mode, meaning it's not interactive and sends output directly
+# to the command pipeline.
+# We then filter the results to show only the line about CPU info, get the idle,
+# or available cpu info, and substract 100 to it to get the current utilization rate.
+ucpu=$(top -bn1 | grep '^%Cpu' | awk '{acpu = 100 - $8} {print acpu}')
 
-udisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} END {print ut}')
+# 'who' show info about the last boot. awk filters only date and time.
+lboot=$(who -b | awk '{print $3 " " $4}')
 
-pdisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} {ft+= $2} END {printf("%d"), ut/ft*100}')
+# The command substitution following $ is used to capture the output inside the ().
+# '-ne' if not equal, '-eq' would be if equal. [] test command to perform various
+# tests on values. ; separates multiple commands on a single line. fi ends the if statement.
+lvm=$(if [ $(lsblk | grep "lvm" | wc -l) -ne 0 ]; then echo yes; else echo no; fi)
 
+# Info about sockets using ss, -t to show only TCP connections.
+tcp=$(ss -t | grep '^ESTAB' | wc -l)
 
-cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')
+# -w counts number of words.
+user=$(users | wc -w)
 
+# -I shows host ip instead of name.
+ip=$(hostname -I)
 
-lb=$(who -b | awk '$1 == "system" {print $3 " " $4}')
+# MAC address is listed next to 'ether'
+mac=$(ip adress | grep ether | awk '{print $2}')
 
+sudo=$(cat /var/log/sudo/sudo.log | wc -l)
 
-#here the goal is to know if your VM has dynamic partitions.
-#so if you have more than 0 partitions when you type the lsblk command
-#then you can display "yes
-lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)
-
-ctcp=$(ss -neopt state established | wc -l)
-
-ulog=$(users | wc -w)
-
-#hostname command displays the system hostname
-ip=$(hostname -I) # -I is used to get all IP(network) addresses
-
-mac=$(ip link show | grep "ether" | awk '{print $2}')
-
-cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
-
-#here you will call all the variables that you created above
-#and display eveything in an aesthetic way
 wall "	#Architecture: $arc
 	#CPU physical: $pcpu
 	#vCPU: $vcpu
-	#Memory Usage: $uram/${fram}MB ($pram%)
-	#Disk Usage: $udisk/${fdisk}Gb ($pdisk%)
-	#CPU load: $cpul
-	#Last boot: $lb
-	#LVM use: $lvmu
-	#Connections TCP: $ctcp ESTABLISHED
-	#User log: $ulog
+	#Memory Usage: $uram/{$tram}Gb ($pram)
+	#Disk Usage: $udisk/{$tdisk}Gb ($pdisk)
+	#CPU load: $ucpu%
+	#Last boot: $lboot
+	#LVM use: $lvm
+	#Connections TCP: $tcp ESTABLISHED
+	#User log: $user
 	#Network: IP $ip ($mac)
-	#Sudo: $cmds cmd"
+	#Sudo: $sudo commands"

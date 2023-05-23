@@ -1,30 +1,30 @@
 #!/bin/bash
 arc=$(uname -a)
-pcpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l)
+pcpu=$(grep "physical id" /proc/cpuinfo | uniq | sort | wc -l)
 vcpu=$(grep "^processor" /proc/cpuinfo | wc -l)
-fram=$(free -m | awk '$1 == "Mem:" {print $2}')
+tram=$(free -m | awk '$1 == "Mem:" {print $2}')
 uram=$(free -m | awk '$1 == "Mem:" {print $3}')
-pram=$(free | awk '$1 == "Mem:" {printf("%.2f"), $3/$2*100}')
-fdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{ft += $2} END {print ft}')
-udisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} END {print ut}')
-pdisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} {ft+= $2} END {printf("%d"), ut/ft*100}')
-cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')
-lb=$(who -b | awk '$1 == "system" {print $3 " " $4}')
-lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)
-ctcp=$(ss -neopt state established | wc -l)
-ulog=$(users | wc -w)
+pram=$(free -m | awk '$1 == "Mem:" {printf("%.2f", $3/$2*100)}')
+tdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{tdisk += $2} END {print tdisk}')
+udisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{udisk += $3} END {print udisk}')
+pdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{tdisk += $2} {udisk += $3} END {printf("%.2f", udisk/tdisk*100)}')
+ucpu=$(top -bn1 | grep '^%Cpu' | awk '{acpu = 100 - $8} END {print acpu}')
+lboot=$(who -b | awk '{print $3 " " $4}')
+lvm=$(if [ $(lsblk | grep "lvm" | wc -l) -ne 0 ]; then echo yes; else echo no; fi)
+tcp=$(ss -t | grep '^ESTAB' | wc -l)
+user=$(users | wc -w)
 ip=$(hostname -I)
-mac=$(ip link show | grep "ether" | awk '{print $2}')
-cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
+mac=$(ip address | grep ether | awk '{print $2}')
+sudo=$(cat /var/log/sudo/sudo.log | wc -l)
 wall "	#Architecture: $arc
 	#CPU physical: $pcpu
 	#vCPU: $vcpu
-	#Memory Usage: $uram/${fram}MB ($pram%)
-	#Disk Usage: $udisk/${fdisk}Gb ($pdisk%)
-	#CPU load: $cpul
-	#Last boot: $lb
-	#LVM use: $lvmu
-	#Connections TCP: $ctcp ESTABLISHED
-	#User log: $ulog
+	#Memory Usage: $uram/${tram}Gb ($pram%)
+	#Disk Usage: $udisk/${tdisk}Gb ($pdisk%)
+	#CPU load: $ucpu%
+	#Last boot: $lboot
+	#LVM use: $lvm
+	#Connections TCP: $tcp ESTABLISHED
+	#User log: $user
 	#Network: IP $ip ($mac)
-	#Sudo: $cmds cmd"
+	#Sudo: $sudo commands"
