@@ -166,7 +166,7 @@ Configuring Sudoers Group
 			'Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"' secure path for executables.
 			'Defaults	badpass_message="Password is wrong, please try again!"' custom error message
 			'Defaults	passwd_tries=3'
-			'Defaults	logfile="/var/log/sudo.log"'
+			'Defaults	logfile="/var/log/sudo/sudo.log"'
 			'Defaults	log_input'
 			'Defaults	log_output' enables login of input and output commands with sudo.
 			'Defaults	requiretty' sudo can only be executed from a terminal.
@@ -180,26 +180,12 @@ Crontab Configuration
 	'touch monitoring.sh' creates a shell script (empty for now)
 	'chmod 777 monitoring.sh' changes the permissions to 777. Readable writable executable by all users.
 	'systemctl enable cron'
-
-Moniroting.sh
-	Useful Commands to Write the script
-		'uname' architecture info
-		'/proc/cpuinfo' CPU info
-		'free' RAM info
-		'df' disk info
-		'top -bn1' process info
-		'who' boot and connected user info
-		'lsblk' partition and LVM info
-		'/proc/net/sockstat' TCP info
-		'hostname' hostname and IP info
-		'ip link show'/'ip address' IP and MAC info
-
 	Copy script text
 	Open terminal outside Virtual Machine and type
-		'ip address' para ver o ip
+		'hostname -I' para ver o ip
 		'ssh your_user_name@ip -p 4242' then type pass
 			neste caso foi 'ssh jqueijo-@10.12.248.135 -p 4242'
-		'cd/usr/local/bin'
+		'cd /usr/local/bin'
 		'vim monitoring.sh'
 			paste script text
 			save and exit
