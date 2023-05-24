@@ -1,12 +1,20 @@
 'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
-
+'sudo ufw status'
 'sudo ufw status numbered' checks the status
-'sudo ufw delete <port index number>' remove port rule
+'sudo ufw delete port_index_number' remove port rule
+'sudo ufw allow port_id'
 'hostname -I'
-
-'sudo chage -M 30 your_username'
-'sudo chage -m 2 your_username'
-'sudo chage -W 7 your_username'
+'sudo systemctl status ssh'
+'getent group group_name'
+'sudo adduser new_username'
+'sudo groupadd group_name'
+'sudo usermod -aG group_name user_name'
+'sudo chage -l your_username'
+'sudo hostnamectl'
+'sudo hostnmectl set-hostname new_hostname'
+'sudo reboot'
+'lsblk'
+'dpkg -l | grep sudo' to show sudo is intalled.
 
 Useful Commands For Users:
 	'useradd' creates a user
