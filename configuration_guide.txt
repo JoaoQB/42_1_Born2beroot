@@ -85,6 +85,7 @@ Setting Password Policy:
 			'minlen = 10' Minimum pass size
 			'dcredit = -1' Maximum digits, less than 0 minimum digits in pass
 			'ucredit = -1' Maximum Uppercase, less than 0 minimum Upper in pass
+			'lcredit = -1' Maximum lowercase, less than 0 minimum.
 			'maxrepeat = 3' Maximum allowed consecutive same characters in pass
 			'usercheck = 1' check if pass contains user name in some from
 			'retry = 3' prompt user n times before returning error
@@ -92,7 +93,7 @@ Setting Password Policy:
 	'sudo vim /etc/pam.d/common-password'
 		Find line '... pam_pwquality.so retry=3' or 'password requisite pam_deny.so'
 		Add to the end of line:
-		'minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root'
+		'minlen=10 ucredit=-1 dcredit=-1 lcredit =-1 maxrepeat=3 reject_username difok=7 enforce_for_root'
 		save and exit vim
 	'sudo vim /etc/login.defs'
 		Find PASS_MAX_DAYS 9999...
