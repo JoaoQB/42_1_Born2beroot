@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/22 14:56:19 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/24 14:36:10 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,9 +56,13 @@ Operating systems
 	is to manage memory, disks, taks and processes. A system always has an OS and
 	an OS always has a kernel. (see useful_links)
 
-
 Debian vs Rocky:
-
+	Debian is easier to install and configure so better for personal servers.
+	Debian is easier to update when a new version is released, is more user-friendly
+	and supports many libraries, filesystems and architecture. More options for custo-
+	-misation.
+	Rocky is enterprise-oriented, built on top of Red Hat Enterprise Linux. Provides
+	commercial support. Rocky uses DNF while Debian uses apt-get as package manager.
 
 Linux File System:
 	Defined by the fyle system hierarchy standard.
@@ -103,3 +107,31 @@ Linux File System:
 		Illusionary file system that doesn't exist on the harddrive itself but is
 		created in memory on the fly by the kernel itself to keep track of running
 		processes.
+
+Difference between Aptitude and APT:
+	Aptitude is a high level package manager that uses APT in the background while
+	APT is low level that can be used by other higher level package managers.
+	Aptitude will automatically remove unused packages or suggest installations.
+	APT will only do what is told to do in the command line. APT comes with Debian.
+
+What is AppArmor:
+	Linux security system that provides MAC security. Allows system admin to restrict
+	the actions that processes can perform. If UFW was the security in 42 school,
+	that controls who gets in and out, AppaArmor would be the wall behind the bocal,
+	it protects specific places or apps.
+
+What is UFW:
+	Interface to modify the firewall of a device without compromising security.
+	It could be otherwise done with Iptables, but that can be quite hard.
+	Use it to configure which ports to allow connections to, and which to close.
+	Useful in conjunction with SSH.
+
+What is SSH:
+	SSH is an authentication mechanism between a client and a host. Allows two
+	computers to securely talk with each other. Can access my server from another
+	pc's terminal
+
+What is Cron:
+	A command line utilty to schedule commands or scripts to happen at specific time
+	intervals or specific time each day. Useful if you want to set your server to
+	restart at a specific time each day.
