@@ -106,45 +106,17 @@ Setting Password Policy:
 	'sudo reboot' to reboot the change effects.
 
 
-Creating a Group:
-	'sudo groupadd user42' create a group
-	'sudo groupadd evaluating' create an evaluating group
-	'getent group' check if group was created
-
 Creating a User and Assigning Them Into The Group
 	'cut -d: -f1 /etc/passwd' check all local users
 	'sudo adduser new_username'
+	'sudo groupadd user42' create group user42
+		'getent group' check if group was created
 		'sudo usermod -aG user42 your_username'
 		'sudo usermod -aG evaluating your_new_username'
 	'getent group user42'
 	'getent group evaluating'
 	'groups' checks which groups the current user belongs to
 	'chage -l your_new_username' to check if pass rules are working in users
-
-Hostname:
-	'sudo hostnamectl set-hostname new_hostname' new hostname
-	'hostnamectl status'
-
-Useful Commands For Users:
-	'useradd' creates a user
-	'usermod' changes user parameters
-		'-l' for username
-		'-c' for full name
-		'-G' for groups by group id / '-aG' append to group
-			'chage -l your_username' check user settings
-	'sudo userdel -r' deletes user and associated files
-	'id -u' display user ID
-	'users' list all currently logged users
-	'cut -d: -f1 /etc/passwd' list all users on the machine (local users)
-
-Useful Commands For Groups:
-	'groupadd' creates new group
-	'gpasswd -a' adds user to a group
-	'gpasswd -d' removes user from a group
-	'groupdel' deletes group
-	'groups' display the groups of a user
-	'id -g' shows a user main group ID
-	'getent group' list of all users in a group
 
 
 // Useful for auditing (record of all sudo commands executed), accountability,
@@ -156,10 +128,10 @@ Creating sudo.log
 	'mkdir sudo' if it doesn't exist
 	'cd sudo'
 	'touch sudo.log'
-	'cd ~/../'
+	'cd ~'
 
 Configuring Sudoers Group
-	'sudo nano /etc/sudoers'
+	'sudo vim /etc/sudoers'
 		edit it with the following defaults:
 			'Defaults	env_reset' ensures environment variables are reset to a secure state.
 			'Defaults	mail_badpass' sends an email to MAILTO adress whenever incorrect pass is entered with sudo.

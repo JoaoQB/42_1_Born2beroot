@@ -1,10 +1,12 @@
 'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
+
 'sudo ufw status numbered' checks the status
+'sudo ufw delete <port index number>' remove port rule
+'hostname -I'
 
 'sudo chage -M 30 your_username'
 'sudo chage -m 2 your_username'
 'sudo chage -W 7 your_username'
-'sudo ufw delete <port index number>' remove port rule
 
 Useful Commands For Users:
 	'useradd' creates a user
@@ -20,8 +22,8 @@ Useful Commands For Users:
 
 Useful Commands For Groups:
 	'groupadd' creates new group
-	'gpasswd -a' adds user to a group
-	'gpasswd -d' removes user from a group
+	'sudo usermod -aG group_name your_new_username' adds user to a group
+	'gpasswd -d user_name group_name' removes user from a group
 	'groupdel' deletes group
 	'groups' display the groups of a user
 	'id -g' shows a user main group ID
@@ -44,3 +46,10 @@ Moniroting.sh
 		'/proc/net/sockstat' TCP info
 		'hostname' hostname and IP info
 		'ip link show'/'ip address' IP and MAC info
+
+Paths:
+	'/etc/ssh/sshd_config' change ssh port, no root login.
+	'/etc/security/pwquality.conf' change password policy.
+	'sudo vim /etc/pam.d/common-password' change password policy.
+	'sudo vim /etc/login.defs' change password policy.
+	'/usr/local/bin' monitoring.sh path.
