@@ -15,6 +15,8 @@
 'sudo reboot'
 'lsblk'
 'dpkg -l | grep sudo' to show sudo is intalled.
+'sudo cronstop'
+'sudo cronstart'
 
 Useful Commands For Users:
 	'useradd' creates a user
@@ -58,6 +60,6 @@ Moniroting.sh
 Paths:
 	'/etc/ssh/sshd_config' change ssh port, no root login.
 	'/etc/security/pwquality.conf' change password policy.
-	'sudo vim /etc/pam.d/common-password' change password policy.
-	'sudo vim /etc/login.defs' change password policy.
+	'/etc/pam.d/common-password' change password policy.
+	'/etc/login.defs' change password policy.
 	'/usr/local/bin' monitoring.sh path.

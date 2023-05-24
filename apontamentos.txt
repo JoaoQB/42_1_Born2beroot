@@ -6,7 +6,7 @@
 #    By: jqueijo- <jqueijo-@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/17 12:14:29 by jqueijo-          #+#    #+#              #
-#    Updated: 2023/05/24 14:36:10 by jqueijo-         ###   ########.fr        #
+#    Updated: 2023/05/24 15:12:46 by jqueijo-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,3 +135,9 @@ What is Cron:
 	A command line utilty to schedule commands or scripts to happen at specific time
 	intervals or specific time each day. Useful if you want to set your server to
 	restart at a specific time each day.
+
+Password Policy:
+	Installed a Password quality checking library named libpam-pwquality. Changed
+	3 files, /etc/security/pwquality.conf and /etc/pam.d/common-password for retry,
+	minlen, dcredit and so on, and then /etc/login.defs for Pass max/min days and
+	warning.
