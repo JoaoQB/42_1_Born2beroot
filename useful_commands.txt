@@ -1,10 +1,22 @@
 'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
+
+'ls /usr/bin/*session'
+'uname -v' debian check
+
+'sudo systemctl status ufw'
 'sudo ufw status'
 'sudo ufw status numbered' checks the status
 'sudo ufw delete port_index_number' remove port rule
 'sudo ufw allow port_id'
+
+'hostname' / 'hostnamectl'
+
 'hostname -I'
 'sudo systemctl status ssh'
+'vim /etc/ssh/sshd-config'
+
+'which sudo' / 'dpkg -s sudo' / 'dpkg -l | grep sudo' - to show sudo is intalled.
+
 'getent group group_name'
 'sudo adduser new_username'
 'sudo groupadd group_name'
@@ -14,9 +26,15 @@
 'sudo hostnmectl set-hostname new_hostname'
 'sudo reboot'
 'lsblk'
-'dpkg -l | grep sudo' to show sudo is intalled.
+
 'sudo service cron stop'
-'sudo service cron restart'
+'sudo service cron restart'do'
+
+Useful Commands For Users:
+	'useradd' creates a user
+	'usermod' changes user parameters
+		'-l' for username
+		'-c' for full name
 
 Useful Commands For Users:
 	'useradd' creates a user
