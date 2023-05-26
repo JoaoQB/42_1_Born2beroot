@@ -122,8 +122,8 @@ Script Monitoring (questions for the student)
 		'sudo crontab -u root -e (***change 10 value to 1***)'
 	The student being evaluated should make the script stop running when the server
 	has started up, without modifying the script itself. To check this, restart the VM.
-		'sudo cronstop'
-		'sudo cronstart'
+		'sudo service cron stop'
+		'sudo service cron restart'
 	At startup, check if the script still exists in the same place, the rights have
 	remained unchanged and that it has not been modified.
 		'sudo reboot'

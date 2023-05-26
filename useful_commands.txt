@@ -15,8 +15,8 @@
 'sudo reboot'
 'lsblk'
 'dpkg -l | grep sudo' to show sudo is intalled.
-'sudo cronstop'
-'sudo cronstart'
+'sudo service cron stop'
+'sudo service cron restart'
 
 Useful Commands For Users:
 	'useradd' creates a user
