@@ -19,7 +19,7 @@ sudo=$(cat /var/log/sudo/sudo.log | grep 'COMMAND' | wc -l)
 wall "	#Architecture: $arc
 	#CPU physical: $pcpu
 	#vCPU: $vcpu
-	#Memory Usage: $uram/${tram}Gb ($pram%)
+	#Memory Usage: $uram/${tram}MB ($pram%)
 	#Disk Usage: $udisk/${tdisk}Gb ($pdisk%)
 	#CPU load: $ucpu%
 	#Last boot: $lboot
