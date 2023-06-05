@@ -1,17 +1,17 @@
 # Execute as bash.
 #!/bin/bash
 
-# System Architecture info (-a all info)
-arc=$(uname -a)
+# System Architecture info (-s kernel name; -r kernel-release; -v kernel-version; -m machine hardware; -o OS)
+arc=$(uname -srvmo)
 
-# Prints lines matching pattern "physical id" inside file /proc/cpuinfo, uniq
-# to ignore duplicated lines and wc -l to count the number of lines and display
-# that number.
-pcpu=$(grep "physical id" /proc/cpuinfo | uniq | wc -l)
+# 'lscpu' gives cpu info. Check ammount of cores.
+pcpu=$(lscpu | grep 'Core(s)' | awk '{print $4}')
 
-# Print lines matching "processor" (^ means only lines that start with word
-# processor and not every occurrence of the word)
-vcpu=$(grep "^processor" /proc/cpuinfo | wc -l)
+# Check ammount of threads per core.
+vcpu=$(lscpu | grep 'Thread(s)' | awk '{print $4}')
+
+# Multiplies Cores times Threads for total vram.
+tcpu=$(($pcpu * $vcpu))
 
 # Free gives info about available RAM, -m shows info in megabytes, awk
 # filters info so that only the line starting by "Mem:" is showed, and the
@@ -46,8 +46,9 @@ pdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{tdisk += $2} {udisk +=
 # or available cpu info, and substract 100 to it to get the current utilization rate.
 ucpu=$(top -bn1 | grep '^%Cpu' | awk '{acpu = 100 - $8} {print acpu}')
 
-# 'who' show info about the last boot. awk filters only date and time.
-lboot=$(who -b | awk '{print $3 " " $4}')
+# last shows list of logged in users. find the last reboot that is still running. (-m 1 means stop reading file after NUM times
+# in this case 1 time). Then print fields corresponding to date.)
+rboot=$(last | grep 'reboot' | grep 'still running' -m 1 | awk '{print $5" "$6" "$7" @ "$8}')
 
 # The command substitution following $ is used to capture the output inside the ().
 # '-ne' if not equal, '-eq' would be if equal. [] test command to perform various
