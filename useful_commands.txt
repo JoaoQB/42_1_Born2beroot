@@ -1,7 +1,7 @@
 'sudo lvresize -L +XXXm /dev/LVMGroup/YYY'
 
 'ls /usr/bin/*session'
-'uname -v' debian check
+'uname -srvmo' / 'cat /etc/os-release'
 
 'sudo systemctl status ufw'
 'sudo ufw status'
@@ -15,7 +15,7 @@
 'sudo systemctl status ssh'
 'vim /etc/ssh/sshd-config'
 
-'which sudo' / 'dpkg -s sudo' / 'dpkg -l | grep sudo' - to show sudo is intalled.
+'which sudo' / 'dpkg -s sudo' / 'dpkg -l | grep sudo' - to show sudo is installed.
 
 'getent group group_name'
 'sudo adduser new_username'

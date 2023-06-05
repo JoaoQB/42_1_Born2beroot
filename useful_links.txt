@@ -23,6 +23,9 @@ https://www.geeksforgeeks.org/difference-between-operating-system-and-kernel/
 
 https://www.fosslinux.com/43884/apt-vs-aptitude.htm
 
+https://www.tomshardware.com/reviews/cpu-computing-thread-definition,5765.html
+What is a CPU thread?
+
 https://www.devopsschool.com/blog/what-is-swap-in-linux-and-useful-commands-to-work-with-swap-space-in-linux/
 
 https://www.youtube.com/watch?v=0mgefj9ibRE
