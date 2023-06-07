@@ -16,7 +16,7 @@ tcp=$(ss -t | grep '^ESTAB' | wc -l)
 user=$(users | wc -w)
 ip=$(hostname -I)
 mac=$(ip address | grep ether | awk '{print $2}')
-sudo=$(cat /var/log/sudo/sudo.log | grep 'COMMAND' | wc -l)
+sudo=$(cat /var/log/sudo/sudo.log | grep -a 'COMMAND' | wc -l)
 wall "	#Architecture: $arc
 	#CPU physical: $pcpu
 	#vCPU: $tcpu

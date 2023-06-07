@@ -1,0 +1,40 @@
+ls /usr/bin/*session
+sudo systemctl status ufw
+	sudosystemctl status ssh
+vim /etc/ssh/sshd_config
+uname -srvmo
+groups
+	getent group sudo
+	getent group user42
+sudo adduser new_username
+vim /etc/pam.d/common-password
+	vim /etc/security/pwquality.conf
+	vim /etc/login.defs
+sudo groupadd evaluating
+	sudo usermod -aG group_name user_name
+sudo chage -l user_name
+sudo hostnamectl
+	sudo hostname
+	sudo hostnamectl set-hostname new_hostname
+	sudo reboot
+lsblk
+which sudo
+	dpkg -s sudo
+	sudo visudo
+sudo usermod -aG sudo testuser
+	groups testuser
+cd /var/log/sudo
+	cat sudo.log
+sudo systemctl status ufw
+	sudo ufw status
+	sudo ufw allow 8080
+	sudo ufw status numbered
+	sudo ufw delete port_index_number
+sudo systemctl status ssh
+	vim /etc/ssh/sshd_config
+	hostname -I
+	ssh user_name@ip_address -p 4242
+vim /usr/local/bin/monitoring.sh
+	crontab -u root -e
+	sudo service cron stop
+	sudo service cron restart

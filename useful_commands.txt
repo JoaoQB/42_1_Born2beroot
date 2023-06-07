@@ -13,9 +13,10 @@
 
 'hostname -I'
 'sudo systemctl status ssh'
-'vim /etc/ssh/sshd-config'
+'vim /etc/ssh/sshd_config'
 
 'which sudo' / 'dpkg -s sudo' / 'dpkg -l | grep sudo' - to show sudo is installed.
+'sudo visudo'
 
 'getent group group_name'
 'sudo adduser new_username'
@@ -28,7 +29,7 @@
 'lsblk'
 
 'sudo service cron stop'
-'sudo service cron restart'do'
+'sudo service cron restart'
 
 Useful Commands For Users:
 	'useradd' creates a user

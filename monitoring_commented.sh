@@ -67,7 +67,7 @@ ip=$(hostname -I)
 # MAC address is listed next to 'ether'
 mac=$(ip adress | grep ether | awk '{print $2}')
 
-sudo=$(cat /var/log/sudo/sudo.log | wc -l)
+sudo=$(cat /var/log/sudo/sudo.log | grep -a COMMAND | wc -l)
 
 wall "	#Architecture: $arc
 	#CPU physical: $pcpu
